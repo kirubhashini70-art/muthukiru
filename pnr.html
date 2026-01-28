@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PNR Status Check - TrainTrack</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-[#111418] dark:text-white">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- TopNavBar -->
+        <header
+            class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f2f5] dark:border-gray-800 bg-white dark:bg-[#101922] px-6 py-3 lg:px-10">
+            <a href="index.html" class="flex items-center gap-4 text-[#111418] dark:text-white">
+                <div class="size-8 text-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined text-3xl">train</span>
+                </div>
+                <h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">
+                    TrainTrack</h2>
+            </a>
+            <div class="flex flex-1 justify-end gap-8">
+                <div class="hidden md:flex items-center gap-9">
+                    <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                        href="index.html">Home</a>
+                    <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                        href="dashboard.html">My Trips</a>
+                    <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                        href="schedule.html">Schedule</a>
+                    <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                        href="help.html">Support</a>
+                </div>
+                <a href="login.html"
+                    class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-blue-600 transition-colors">
+                    <span class="truncate">Login</span>
+                </a>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <main class="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8 py-8">
+            <!-- Hero Search Section -->
+            <div class="flex flex-col items-center justify-center mb-12">
+                <div class="flex flex-col gap-3 text-center mb-8 max-w-[720px]">
+                    <h1
+                        class="text-[#111418] dark:text-white tracking-tight text-3xl md:text-4xl font-extrabold leading-tight">
+                        Check PNR Status
+                    </h1>
+                    <p class="text-[#60758a] dark:text-gray-400 text-base font-normal leading-normal">
+                        Enter your 10-digit PNR number to get real-time status updates, prediction charts, and detailed
+                        passenger info.
+                    </p>
+                </div>
+                <div class="w-full max-w-[560px]">
+                    <div class="relative group">
+                        <label class="flex flex-col w-full h-14 md:h-16 relative z-10">
+                            <div
+                                class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm bg-white dark:bg-gray-800 overflow-hidden border border-[#e5e7eb] dark:border-gray-700 focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+                                <div class="pl-4 flex items-center justify-center text-[#60758a]">
+                                    <span class="material-symbols-outlined">search</span>
+                                </div>
+                                <input
+                                    class="form-input flex w-full min-w-0 flex-1 resize-none bg-transparent border-none text-[#111418] dark:text-white placeholder:text-[#60758a] px-4 text-base font-medium focus:ring-0 h-full"
+                                    placeholder="Enter 10-digit PNR Number" value="8234567890" />
+                                <div class="flex items-center justify-center pr-2 bg-transparent">
+                                    <button
+                                        class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 md:h-12 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-blue-600 transition-colors shadow-md">
+                                        Check Status
+                                    </button>
+                                </div>
+                            </div>
+                        </label>
+                        <!-- Validation Message (Hidden by default, shown for demo context) -->
+                        <p class="text-[#60758a] dark:text-gray-500 text-xs font-medium mt-2 px-1 text-center">
+                            Valid PNRs usually start with 2, 4, 6, or 8.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Results Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in-up">
+                <!-- Left Column: Trip Info & Passengers (8 cols) -->
+                <div class="lg:col-span-8 flex flex-col gap-6">
+                    <!-- Trip Overview Card -->
+                    <div
+                        class="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 overflow-hidden">
+                        <div
+                            class="px-6 py-5 border-b border-[#f0f2f5] dark:border-gray-700 flex justify-between items-center flex-wrap gap-4">
+                            <div>
+                                <h2 class="text-xl font-bold text-[#111418] dark:text-white">Trip Overview</h2>
+                                <p class="text-sm text-[#60758a] dark:text-gray-400 mt-1">PNR: 8234567890</p>
+                            </div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-bold border border-green-200 dark:border-green-800">
+                                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                Confirmed
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex flex-col md:flex-row justify-between gap-6 md:gap-12">
+                                <div class="flex flex-col gap-1">
+                                    <p
+                                        class="text-[#60758a] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
+                                        Train</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary">directions_railway</span>
+                                        <p class="text-[#111418] dark:text-white text-base font-semibold">12951 -
+                                            Rajdhani Express</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <p
+                                        class="text-[#60758a] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
+                                        Journey Date</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary">calendar_month</span>
+                                        <p class="text-[#111418] dark:text-white text-base font-semibold">Oct 24, 2023
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <p
+                                        class="text-[#60758a] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
+                                        Class</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary">chair</span>
+                                        <p class="text-[#111418] dark:text-white text-base font-semibold">3A (AC 3 Tier)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-8 relative">
+                                <!-- Route Visual -->
+                                <div class="absolute left-2 top-2 bottom-2 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+                                <div class="flex flex-col gap-6">
+                                    <div class="flex items-start gap-4 relative">
+                                        <div
+                                            class="size-4 rounded-full bg-white dark:bg-[#1e293b] border-4 border-primary z-10 mt-1">
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-[#60758a] dark:text-gray-400">Source</p>
+                                            <p class="text-base font-bold text-[#111418] dark:text-white">New Delhi
+                                                (NDLS)</p>
+                                            <p class="text-xs text-[#60758a]">Departure: 16:55</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4 relative">
+                                        <div
+                                            class="size-4 rounded-full bg-primary z-10 mt-1 ring-2 ring-white dark:ring-[#1e293b]">
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-[#60758a] dark:text-gray-400">Destination</p>
+                                            <p class="text-base font-bold text-[#111418] dark:text-white">Mumbai Central
+                                                (MMCT)</p>
+                                            <p class="text-xs text-[#60758a]">Arrival: 08:35 (+1 day)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Passenger Details Card -->
+                    <div
+                        class="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 overflow-hidden">
+                        <div class="px-6 py-5 border-b border-[#f0f2f5] dark:border-gray-700">
+                            <h2 class="text-xl font-bold text-[#111418] dark:text-white">Passenger Details</h2>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#f5f7f8] dark:bg-gray-800/50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-xs font-semibold text-[#60758a] dark:text-gray-400 uppercase tracking-wider">
+                                            Passenger</th>
+                                        <th
+                                            class="px-6 py-3 text-xs font-semibold text-[#60758a] dark:text-gray-400 uppercase tracking-wider">
+                                            Booking Status</th>
+                                        <th
+                                            class="px-6 py-3 text-xs font-semibold text-[#60758a] dark:text-gray-400 uppercase tracking-wider">
+                                            Current Status</th>
+                                        <th
+                                            class="px-6 py-3 text-xs font-semibold text-[#60758a] dark:text-gray-400 uppercase tracking-wider text-right">
+                                            Coach/Berth</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-[#f0f2f5] dark:divide-gray-700">
+                                    <tr class="group hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="size-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs">
+                                                    1</div>
+                                                <div>
+                                                    <p class="text-sm font-semibold text-[#111418] dark:text-white">Amit
+                                                        Sharma</p>
+                                                    <p class="text-xs text-[#60758a]">Age: 34, Male</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-[#60758a] dark:text-gray-400 font-medium">
+                                            WL/12</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                                                CNF
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 text-sm text-[#111418] dark:text-white font-bold text-right">
+                                            B2 / 45 (LB)</td>
+                                    </tr>
+                                    <tr class="group hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="size-8 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-xs">
+                                                    2</div>
+                                                <div>
+                                                    <p class="text-sm font-semibold text-[#111418] dark:text-white">
+                                                        Sneha Sharma</p>
+                                                    <p class="text-xs text-[#60758a]">Age: 31, Female</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-[#60758a] dark:text-gray-400 font-medium">
+                                            WL/13</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                                                CNF
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 text-sm text-[#111418] dark:text-white font-bold text-right">
+                                            B2 / 48 (UB)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="px-6 py-3 bg-[#f5f7f8] dark:bg-gray-800/50 border-t border-[#f0f2f5] dark:border-gray-700 text-xs text-[#60758a] dark:text-gray-400 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">info</span>
+                            LB = Lower Berth, UB = Upper Berth, CNF = Confirmed
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column: Analytics & Actions (4 cols) -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <!-- Confirmation Probability Widget -->
+                    <div
+                        class="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-bold text-[#111418] dark:text-white mb-4">Waitlist Probability</h3>
+                        <div class="flex items-center gap-6">
+                            <div class="relative size-24 flex-shrink-0">
+                                <svg class="size-full rotate-[-90deg]" viewbox="0 0 36 36">
+                                    <!-- Background Circle -->
+                                    <path class="text-gray-100 dark:text-gray-700"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        fill="none" stroke="currentColor" stroke-width="3"></path>
+                                    <!-- Progress Circle (85%) -->
+                                    <path class="text-green-500 drop-shadow-md"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        fill="none" stroke="currentColor" stroke-dasharray="92, 100" stroke-width="3">
+                                    </path>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                    <span class="text-xl font-bold text-[#111418] dark:text-white">92%</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <p class="text-sm font-semibold text-green-600 dark:text-green-400">High Chance</p>
+                                <p class="text-xs text-[#60758a]">Based on historical data for this route.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Trends Chart -->
+                    <div
+                        class="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-gray-700 p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-bold text-[#111418] dark:text-white">Confirmation Trend</h3>
+                            <button
+                                class="text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 p-1 rounded transition-colors">
+                                <span class="material-symbols-outlined text-sm">more_horiz</span>
+                            </button>
+                        </div>
+                        <p class="text-xs text-[#60758a] mb-4">Confirmations over last 5 similar trips</p>
+                        <!-- CSS Chart Mockup -->
+                        <div class="flex items-end justify-between h-32 gap-2 mt-auto">
+                            <!-- Bar 1 -->
+                            <div class="flex flex-col items-center gap-1 w-full group">
+                                <div
+                                    class="w-full bg-blue-100 dark:bg-blue-900/30 rounded-t-sm h-[40%] group-hover:bg-primary transition-all relative">
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap transition-opacity">
+                                        40%</div>
+                                </div>
+                                <span class="text-[10px] text-[#60758a]">T-5</span>
+                            </div>
+                            <!-- Bar 2 -->
+                            <div class="flex flex-col items-center gap-1 w-full group">
+                                <div
+                                    class="w-full bg-blue-100 dark:bg-blue-900/30 rounded-t-sm h-[55%] group-hover:bg-primary transition-all relative">
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap transition-opacity">
+                                        55%</div>
+                                </div>
+                                <span class="text-[10px] text-[#60758a]">T-4</span>
+                            </div>
+                            <!-- Bar 3 -->
+                            <div class="flex flex-col items-center gap-1 w-full group">
+                                <div
+                                    class="w-full bg-blue-100 dark:bg-blue-900/30 rounded-t-sm h-[30%] group-hover:bg-primary transition-all relative">
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap transition-opacity">
+                                        30%</div>
+                                </div>
+                                <span class="text-[10px] text-[#60758a]">T-3</span>
+                            </div>
+                            <!-- Bar 4 -->
+                            <div class="flex flex-col items-center gap-1 w-full group">
+                                <div
+                                    class="w-full bg-blue-100 dark:bg-blue-900/30 rounded-t-sm h-[75%] group-hover:bg-primary transition-all relative">
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap transition-opacity">
+                                        75%</div>
+                                </div>
+                                <span class="text-[10px] text-[#60758a]">T-2</span>
+                            </div>
+                            <!-- Bar 5 -->
+                            <div class="flex flex-col items-center gap-1 w-full group">
+                                <div class="w-full bg-primary rounded-t-sm h-[92%] relative">
+                                    <div
+                                        class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">
+                                        Now</div>
+                                </div>
+                                <span class="text-[10px] font-bold text-primary">Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex flex-col gap-3">
+                        <button
+                            class="w-full flex items-center justify-center gap-2 h-10 bg-white dark:bg-[#1e293b] border border-[#e5e7eb] dark:border-gray-700 text-[#111418] dark:text-white rounded-lg text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-lg">share</span>
+                            Share Status
+                        </button>
+                        <div class="flex gap-3">
+                            <button
+                                class="flex-1 flex items-center justify-center gap-2 h-10 bg-white dark:bg-[#1e293b] border border-[#e5e7eb] dark:border-gray-700 text-[#111418] dark:text-white rounded-lg text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm">
+                                <span class="material-symbols-outlined text-lg">mail</span>
+                                Email
+                            </button>
+                            <button
+                                class="flex-1 flex items-center justify-center gap-2 h-10 bg-white dark:bg-[#1e293b] border border-[#e5e7eb] dark:border-gray-700 text-[#111418] dark:text-white rounded-lg text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm">
+                                <span class="material-symbols-outlined text-lg">print</span>
+                                Print
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Ad / Promo Placeholder (Optional for layout balance) -->
+            <div class="mt-8 rounded-xl overflow-hidden bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-900 dark:to-indigo-900 p-6 flex flex-col md:flex-row items-center justify-between gap-6 text-white shadow-lg"
+                data-alt="Abstract blue gradient banner for promotion">
+                <div>
+                    <h3 class="text-xl font-bold mb-1">Book your return journey?</h3>
+                    <p class="text-blue-100 text-sm">Secure your seats early and get the best prices on the Rajdhani
+                        Express.</p>
+                </div>
+                <button
+                    class="bg-white text-blue-600 px-5 py-2 rounded-lg font-bold text-sm whitespace-nowrap hover:bg-blue-50 transition-colors shadow-sm">
+                    Book Now
+                </button>
+            </div>
+        </main>
+        <!-- Simple Footer -->
+        <footer class="border-t border-[#f0f2f5] dark:border-gray-800 bg-white dark:bg-[#101922] py-8 mt-auto">
+            <div class="max-w-[1200px] mx-auto px-6 text-center">
+                <p class="text-[#60758a] text-sm">© 2023 TrainTrack. All rights reserved.</p>
+                <div class="flex justify-center gap-6 mt-4">
+                    <a class="text-[#60758a] hover:text-primary text-sm" href="#">Privacy Policy</a>
+                    <a class="text-[#60758a] hover:text-primary text-sm" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

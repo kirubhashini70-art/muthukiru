@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Train Tracker - Login</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                        "success": "#22c55e",
+                        "error": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom Railway Pattern */
+        .railway-pattern {
+            background-color: transparent;
+            background-image: linear-gradient(0deg, transparent 24%, #e5e7eb 25%, #e5e7eb 26%, transparent 27%, transparent 74%, #e5e7eb 75%, #e5e7eb 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, #e5e7eb 25%, #e5e7eb 26%, transparent 27%, transparent 74%, #e5e7eb 75%, #e5e7eb 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+        }
+
+        .dark .railway-pattern {
+            background-image: linear-gradient(0deg, transparent 24%, #1e293b 25%, #1e293b 26%, transparent 27%, transparent 74%, #1e293b 75%, #1e293b 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, #1e293b 25%, #1e293b 26%, transparent 27%, transparent 74%, #1e293b 75%, #1e293b 76%, transparent 77%, transparent);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display antialiased text-[#111418] dark:text-white transition-colors duration-200">
+    <!-- Error Toast Notification (Example State) -->
+    <div class="fixed top-6 right-6 z-50 animate-bounce">
+        <div class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-xl dark:text-gray-400 dark:bg-[#1e293b] border-l-4 border-error"
+            role="alert">
+            <div
+                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-error bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                <span class="material-symbols-outlined text-lg">error</span>
+            </div>
+            <div class="ms-3 text-sm font-normal">Invalid credentials. Please try again.</div>
+            <button
+                class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-[#1e293b] dark:hover:bg-gray-700"
+                type="button">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+    </div>
+    <!-- Background Decoration -->
+    <div class="fixed inset-0 z-0 railway-pattern opacity-40 pointer-events-none"></div>
+    <div class="relative z-10 flex min-h-screen flex-col items-center justify-center p-4">
+        <!-- Main Card -->
+        <div
+            class="w-full max-w-[480px] bg-white dark:bg-[#101922] dark:border dark:border-[#1e293b] rounded-xl shadow-2xl overflow-hidden transition-all duration-300">
+            <!-- Header / Logo Area -->
+            <div class="bg-primary/5 dark:bg-[#1e293b]/50 p-6 pb-0 flex flex-col items-center">
+                <div class="size-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-3xl text-primary">train</span>
+                </div>
+                <h2 class="text-[#111418] dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em] mb-1">
+                    Welcome Aboard</h2>
+                <p class="text-[#60758a] dark:text-gray-400 text-base font-normal text-center mb-6">Sign in to access
+                    your schedules and travel plans</p>
+            </div>
+            <!-- Form Area -->
+            <div class="p-6 pt-2">
+                <form class="flex flex-col gap-5">
+                    <!-- Email Input -->
+                    <label class="flex flex-col gap-1.5">
+                        <span class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal">Email or
+                            Username</span>
+                        <div class="relative">
+                            <input
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-[#1e293b] focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-12 placeholder:text-[#60758a] px-4 pl-11 text-base font-normal leading-normal transition-shadow"
+                                placeholder="passenger@traintracker.com" type="text" />
+                            <div
+                                class="absolute left-3 top-1/2 -translate-y-1/2 text-[#60758a] dark:text-gray-500 flex items-center">
+                                <span class="material-symbols-outlined text-[20px]">person</span>
+                            </div>
+                        </div>
+                    </label>
+                    <!-- Password Input -->
+                    <label class="flex flex-col gap-1.5">
+                        <div class="flex justify-between items-center">
+                            <span
+                                class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal">Password</span>
+                            <a class="text-primary hover:text-blue-600 text-sm font-semibold transition-colors"
+                                href="#">Forgot Password?</a>
+                        </div>
+                        <div class="relative flex w-full flex-1 items-stretch rounded-lg">
+                            <input
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-[#1e293b] focus:outline-0 focus:ring-2 focus:ring-primary/20 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-12 placeholder:text-[#60758a] px-4 pl-11 pr-11 text-base font-normal leading-normal transition-shadow"
+                                placeholder="Enter your password" type="password" />
+                            <div
+                                class="absolute left-3 top-1/2 -translate-y-1/2 text-[#60758a] dark:text-gray-500 flex items-center">
+                                <span class="material-symbols-outlined text-[20px]">lock</span>
+                            </div>
+                            <button
+                                class="absolute right-0 top-0 h-full px-3 text-[#60758a] dark:text-gray-500 hover:text-[#111418] dark:hover:text-white flex items-center justify-center transition-colors"
+                                type="button">
+                                <span class="material-symbols-outlined text-[20px]">visibility</span>
+                            </button>
+                        </div>
+                    </label>
+                    <!-- Controls: Remember Me & 2FA -->
+                    <div class="flex flex-col gap-4 py-2">
+                        <!-- Remember Me -->
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input
+                                class="h-5 w-5 rounded border-[#dbe0e6] dark:border-gray-600 border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 focus:border-primary focus:outline-none transition-colors"
+                                type="checkbox" />
+                            <span
+                                class="text-[#111418] dark:text-gray-300 text-sm font-normal leading-normal group-hover:text-primary transition-colors">Remember
+                                me on this device</span>
+                        </label>
+                        <!-- 2FA Toggle (Using Green for visual distinction) -->
+                        <div
+                            class="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-[#1e293b] border border-gray-100 dark:border-gray-700">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">Two-Factor
+                                    Authentication</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400">Secure your account with
+                                    2FA</span>
+                            </div>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input class="sr-only peer" type="checkbox" value="" />
+                                <div
+                                    class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-success">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Submit Button -->
+                    <button onclick="window.location.href='dashboard.html'"
+                        class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary hover:bg-blue-600 text-white text-base font-bold leading-normal tracking-[0.015em] transition-all shadow-md hover:shadow-lg active:scale-[0.98]">
+                        <span class="truncate">Sign In</span>
+                    </button>
+                </form>
+                <!-- Footer Sign Up -->
+                <div class="mt-6 text-center">
+                    <p class="text-[#60758a] dark:text-gray-400 text-sm">
+                        Don't have an account?
+                        <a class="text-primary font-bold hover:underline" href="signup.html">Sign Up Now</a>
+                    </p>
+                </div>
+            </div>
+            <!-- Decorative Bottom Bar -->
+            <div class="h-1.5 w-full bg-gradient-to-r from-primary via-blue-400 to-success"></div>
+        </div>
+        <!-- Fun Fact (Simulating Loading Tip / Static Footer) -->
+        <div class="mt-8 max-w-[480px] w-full animate-fade-in-up">
+            <div
+                class="bg-white/80 dark:bg-[#101922]/80 backdrop-blur-sm rounded-lg p-4 border border-blue-100 dark:border-gray-800 flex items-start gap-3 shadow-sm">
+                <span class="material-symbols-outlined text-primary mt-0.5">lightbulb</span>
+                <div>
+                    <p class="text-xs font-bold text-primary uppercase tracking-wider mb-1">Did you know?</p>
+                    <p class="text-sm text-[#111418] dark:text-gray-300 leading-relaxed">
+                        The longest train route in the world is the Trans-Siberian Railway, spanning over 9,289
+                        kilometers across Russia.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

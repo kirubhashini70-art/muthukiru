@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>RailTrack Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for better aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white overflow-hidden">
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside
+            class="hidden md:flex flex-col w-64 h-full bg-white dark:bg-[#1a2632] border-r border-[#f0f2f5] dark:border-[#2a3b4d] shrink-0 transition-colors duration-200">
+            <div class="flex flex-col h-full p-4 justify-between">
+                <div class="flex flex-col gap-4">
+                    <!-- Branding -->
+                    <a href="index.html" class="flex items-center gap-3 px-2 py-2 cursor-pointer">
+                        <div class="bg-primary/10 flex items-center justify-center rounded-lg size-10">
+                            <span class="material-symbols-outlined text-primary text-2xl">train</span>
+                        </div>
+                        <h1 class="text-lg font-bold leading-normal dark:text-white">RailTrack</h1>
+                    </a>
+                    <!-- Navigation -->
+                    <nav class="flex flex-col gap-2 mt-2">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary"
+                            href="dashboard.html">
+                            <span class="material-symbols-outlined fill-1">dashboard</span>
+                            <p class="text-sm font-bold leading-normal">Dashboard</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] text-[#60758a] dark:text-[#94a3b8] transition-colors"
+                            href="search.html">
+                            <span class="material-symbols-outlined">search</span>
+                            <p class="text-sm font-medium leading-normal">Search</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] text-[#60758a] dark:text-[#94a3b8] transition-colors"
+                            href="schedule.html">
+                            <span class="material-symbols-outlined">schedule</span>
+                            <p class="text-sm font-medium leading-normal">Schedule</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] text-[#60758a] dark:text-[#94a3b8] transition-colors"
+                            href="live_status.html">
+                            <span class="material-symbols-outlined">map</span>
+                            <p class="text-sm font-medium leading-normal">Map</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] text-[#60758a] dark:text-[#94a3b8] transition-colors"
+                            href="pnr.html">
+                            <span class="material-symbols-outlined">confirmation_number</span>
+                            <p class="text-sm font-medium leading-normal">Tickets</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] text-[#60758a] dark:text-[#94a3b8] transition-colors"
+                            href="index.html">
+                            <span class="material-symbols-outlined">logout</span>
+                            <p class="text-sm font-medium leading-normal">Logout</p>
+                        </a>
+                    </nav>
+                </div>
+                <!-- Bottom Action -->
+                <button
+                    class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors shadow-sm">
+                    <span class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg">add</span>
+                        New Trip
+                    </span>
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content Wrapper -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden relative">
+            <!-- Top Navigation -->
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f0f2f5] dark:border-[#2a3b4d] bg-white dark:bg-[#1a2632] px-6 py-3 z-10 shrink-0">
+                <div class="flex items-center gap-4 lg:gap-8 w-full max-w-2xl">
+                    <!-- Mobile Menu Toggle -->
+                    <button class="md:hidden text-[#60758a] dark:text-[#94a3b8]">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2
+                        class="hidden sm:block text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">
+                        My Dashboard</h2>
+                    <!-- Search Bar -->
+                    <label class="flex flex-col min-w-[200px] w-full max-w-md h-10">
+                        <div class="flex w-full flex-1 items-stretch rounded-lg h-full relative group">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#60758a]">
+                                <span class="material-symbols-outlined text-[20px]">search</span>
+                            </div>
+                            <input
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-[#f0f2f5] dark:bg-[#24303f] focus:border-none h-full placeholder:text-[#60758a] px-4 pl-10 text-sm font-normal leading-normal transition-shadow"
+                                placeholder="Search for trains, stations, or routes..." />
+                        </div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-end gap-4 ml-4">
+                    <div class="flex gap-2">
+                        <button
+                            class="flex items-center justify-center rounded-lg size-10 hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] text-[#111418] dark:text-white transition-colors relative">
+                            <span class="material-symbols-outlined text-[24px]">notifications</span>
+                            <span
+                                class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-[#1a2632]"></span>
+                        </button>
+                        <button
+                            class="flex items-center justify-center rounded-lg size-10 hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] text-[#111418] dark:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[24px]">help</span>
+                        </button>
+                    </div>
+                    <!-- User Avatar -->
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white dark:border-[#2a3b4d] shadow-sm cursor-pointer"
+                        data-alt="User profile picture showing a smiling person"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVwnVdw6N_LfXNedBe5hHRCl1EuY9K_QAsdPn02nvOi5-6q5bX-Tn3dsCMFkGGK1VL9KgQ1VXVvmOe582nJ-YcgGhItuhuYXRy55ai3G7-VS6cRQk1_TiLTiXd_qnb3M4Jl1rGGp2NU1el_m3pSU_kzlm3wwRF9ZWorWglGpS0YQw1Ty7_m80WpIKVNfyTd9Ha3lWsXVXQ3ELsguzg-iYG3r2oiOfsYeAZI4TB8skrXzzHcEBTwGCUS1hlbc1065CNYMTIdOaoDQY");'>
+                    </div>
+                </div>
+            </header>
+            <!-- Scrollable Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
+                <div class="max-w-[1200px] mx-auto flex flex-col gap-6">
+                    <!-- Tabs -->
+                    <div class="w-full border-b border-[#dbe0e6] dark:border-[#2a3b4d]">
+                        <div class="flex gap-6 md:gap-8 px-2">
+                            <a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-[#111418] dark:text-white pb-3 pt-2 px-1 transition-colors"
+                                href="#">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Overview</p>
+                            </a>
+                            <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#60758a] hover:text-[#111418] dark:text-[#94a3b8] dark:hover:text-white pb-3 pt-2 px-1 transition-colors"
+                                href="#">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">History</p>
+                            </a>
+                            <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#60758a] hover:text-[#111418] dark:text-[#94a3b8] dark:hover:text-white pb-3 pt-2 px-1 transition-colors"
+                                href="#">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Settings</p>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Profile Header Card -->
+                    <div
+                        class="bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2a3b4d] p-6">
+                        <div class="flex flex-col md:flex-row gap-6 items-center md:items-start justify-between">
+                            <div class="flex flex-col sm:flex-row gap-5 items-center sm:items-start w-full">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-24 border-4 border-[#f0f2f5] dark:border-[#2a3b4d] shadow-inner"
+                                    data-alt="Large profile picture of Alex Johnson"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDxKgkowTrrBt0_lnvhZm2qb-nZANMI1h-ND9v1GWAUhnnDxBCNxgX-BClBrO55kfZf6NtN3kFgq6qkNVTxUWGC_BN6xRCMVIWblLPVU4QPiNVP5YoELuGamqJOFL1LBv56Hb5PlGxZ_CLZL6UCd9bBNBPCWmUWKt_YVeZQ71Drq7yso4YWyhQbJO4cIdn69wzXtdRtU-5c7i96yKsKwc5HD-y8PApPu7Hs_UgrfgMs008aqRNgsHa0sg-O7a-6ohh6Z7zyxae37-g");'>
+                                </div>
+                                <div class="flex flex-col justify-center text-center sm:text-left pt-2">
+                                    <h2 class="text-[#111418] dark:text-white text-2xl font-bold leading-tight">Alex
+                                        Johnson</h2>
+                                    <div class="flex items-center justify-center sm:justify-start gap-2 mt-1">
+                                        <span class="material-symbols-outlined text-yellow-500 text-sm">stars</span>
+                                        <p class="text-[#60758a] dark:text-[#94a3b8] text-sm font-medium">Gold Commuter
+                                            Member</p>
+                                    </div>
+                                    <p class="text-[#60758a] dark:text-[#94a3b8] text-sm mt-1">Member since 2019 • Next
+                                        renewal: Aug 2024</p>
+                                </div>
+                            </div>
+                            <button
+                                class="shrink-0 flex items-center justify-center rounded-lg h-9 px-4 bg-[#f0f2f5] hover:bg-[#e2e8f0] dark:bg-[#2a3b4d] dark:hover:bg-[#374b61] text-[#111418] dark:text-white text-sm font-bold transition-colors w-full sm:w-auto">
+                                <span class="material-symbols-outlined text-lg mr-2">edit</span>
+                                Edit Profile
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Dashboard Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left Column: Upcoming Trip & Stats -->
+                        <div class="flex flex-col gap-6 lg:col-span-1">
+                            <!-- Upcoming Trip Widget -->
+                            <div
+                                class="bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2a3b4d] overflow-hidden">
+                                <div
+                                    class="p-4 border-b border-[#f0f2f5] dark:border-[#2a3b4d] flex justify-between items-center">
+                                    <h3 class="font-bold text-[#111418] dark:text-white">Next Trip</h3>
+                                    <span
+                                        class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs px-2 py-1 rounded-full font-bold">On
+                                        Time</span>
+                                </div>
+                                <div class="p-5 flex flex-col gap-4">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="text-3xl font-bold text-[#111418] dark:text-white">14:00</p>
+                                            <p class="text-sm text-[#60758a] dark:text-[#94a3b8]">Today</p>
+                                        </div>
+                                        <div class="flex flex-col items-center px-4">
+                                            <span class="text-xs text-[#60758a]">2h 15m</span>
+                                            <div
+                                                class="w-24 h-1 bg-[#e5e7eb] dark:bg-[#2a3b4d] rounded-full my-1 relative">
+                                                <div class="absolute left-0 top-0 h-full w-1/2 bg-primary rounded-full">
+                                                </div>
+                                            </div>
+                                            <span class="text-xs text-primary font-medium">Express 404</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-3xl font-bold text-[#111418] dark:text-white">16:15</p>
+                                            <p class="text-sm text-[#60758a] dark:text-[#94a3b8]">Est. Arrival</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex justify-between items-center bg-[#f8fafc] dark:bg-[#24303f] p-3 rounded-lg">
+                                        <div class="flex items-center gap-2">
+                                            <div class="size-2 bg-[#111418] dark:bg-white rounded-full"></div>
+                                            <span class="font-medium text-sm dark:text-white">NY Penn</span>
+                                        </div>
+                                        <span
+                                            class="material-symbols-outlined text-[#94a3b8] text-sm">arrow_forward</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-medium text-sm dark:text-white">DC Union</span>
+                                            <div
+                                                class="size-2 border-2 border-[#111418] dark:border-white rounded-full">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3 mt-1">
+                                        <button
+                                            class="flex items-center justify-center h-9 rounded-lg bg-primary text-white text-sm font-bold hover:bg-blue-600 transition-colors">
+                                            View Ticket
+                                        </button>
+                                        <button
+                                            class="flex items-center justify-center h-9 rounded-lg bg-[#f0f2f5] hover:bg-[#e2e8f0] dark:bg-[#2a3b4d] dark:hover:bg-[#374b61] text-[#111418] dark:text-white text-sm font-bold transition-colors">
+                                            Modify
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Recent Searches Widget -->
+                            <div
+                                class="bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2a3b4d] p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="font-bold text-[#111418] dark:text-white">Recent Searches</h3>
+                                    <button class="text-primary text-sm font-medium hover:underline">Clear</button>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <div
+                                        class="flex items-center justify-between p-2 rounded-lg hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] cursor-pointer group transition-colors">
+                                        <div class="flex items-center gap-3">
+                                            <div class="bg-primary/10 text-primary p-2 rounded-lg">
+                                                <span class="material-symbols-outlined text-lg">history</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-bold text-[#111418] dark:text-white">Boston South
+                                                    Station</p>
+                                                <p class="text-xs text-[#60758a] dark:text-[#94a3b8]">To Philadelphia •
+                                                    Yesterday</p>
+                                            </div>
+                                        </div>
+                                        <span
+                                            class="material-symbols-outlined text-[#94a3b8] group-hover:text-primary">arrow_forward_ios</span>
+                                    </div>
+                                    <div
+                                        class="flex items-center justify-between p-2 rounded-lg hover:bg-[#f0f2f5] dark:hover:bg-[#2a3b4d] cursor-pointer group transition-colors">
+                                        <div class="flex items-center gap-3">
+                                            <div class="bg-primary/10 text-primary p-2 rounded-lg">
+                                                <span class="material-symbols-outlined text-lg">history</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-bold text-[#111418] dark:text-white">Chicago
+                                                    Union</p>
+                                                <p class="text-xs text-[#60758a] dark:text-[#94a3b8]">To St. Louis • 2
+                                                    days ago</p>
+                                            </div>
+                                        </div>
+                                        <span
+                                            class="material-symbols-outlined text-[#94a3b8] group-hover:text-primary">arrow_forward_ios</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Middle Column: Interactive Map -->
+                        <div class="flex flex-col gap-6 lg:col-span-2">
+                            <div
+                                class="bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2a3b4d] overflow-hidden flex flex-col h-full min-h-[400px]">
+                                <div
+                                    class="p-4 border-b border-[#f0f2f5] dark:border-[#2a3b4d] flex justify-between items-center">
+                                    <h3 class="font-bold text-[#111418] dark:text-white">Route Map</h3>
+                                    <div class="flex gap-2">
+                                        <button
+                                            class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-[#60758a] dark:text-[#94a3b8]">
+                                            <span class="material-symbols-outlined text-xl">zoom_in</span>
+                                        </button>
+                                        <button
+                                            class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-[#60758a] dark:text-[#94a3b8]">
+                                            <span class="material-symbols-outlined text-xl">zoom_out</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="relative flex-1 bg-[#e5e7eb] dark:bg-[#0f172a]">
+                                    <div class="w-full h-full bg-center bg-cover object-cover"
+                                        data-alt="Interactive map showing train routes along the East Coast"
+                                        data-location="East Coast USA"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2x1RlNW6twhZ7cQJHI3iML4hxdk3Tg-rEStatTU8VH654udU3LuZHGzGIQ2KrmoiKJ58ZA7vY9gaPG1mCZVNxwaTJ-sIc-B17DRHZxWdSh7rQhw55uCjv25J2MixxzFZB8q3vdAdLL7eJUB8R5T2c3rMX94Ukp2IhS4N6wuYSr_O62Oa4dAdLQrZYAtRNSc1sVh23Nk6gPDEspLnafcg-6XYOneGWmfM_V3803SBXgoIGmF-53hlNnMCcCaLeJWxiD2YRZgS3t50");'>
+                                        <!-- Map Overlays (Simulated UI) -->
+                                        <div class="absolute inset-0 bg-black/10 dark:bg-black/40"></div>
+                                        <!-- Pinned Route Marker -->
+                                        <div
+                                            class="absolute top-1/4 left-1/3 transform -translate-x-1/2 -translate-y-1/2">
+                                            <div class="relative group cursor-pointer">
+                                                <div
+                                                    class="size-4 bg-primary rounded-full border-2 border-white shadow-lg animate-pulse">
+                                                </div>
+                                                <div
+                                                    class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white dark:bg-[#1a2632] px-2 py-1 rounded shadow-md text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity dark:text-white">
+                                                    New York
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Path Line (Simulated) -->
+                                        <svg class="absolute inset-0 pointer-events-none w-full h-full"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M 33% 25% Q 40% 40% 30% 60%" fill="none" stroke="#258cf4"
+                                                stroke-dasharray="5,5" stroke-width="3"></path>
+                                        </svg>
+                                        <!-- Pinned Route Marker 2 -->
+                                        <div
+                                            class="absolute top-[60%] left-[30%] transform -translate-x-1/2 -translate-y-1/2">
+                                            <div class="relative group cursor-pointer">
+                                                <div
+                                                    class="size-4 bg-white rounded-full border-4 border-primary shadow-lg">
+                                                </div>
+                                                <div
+                                                    class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white dark:bg-[#1a2632] px-2 py-1 rounded shadow-md text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity dark:text-white">
+                                                    Washington DC
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Map Controls Overlay -->
+                                    <div class="absolute bottom-4 right-4 flex flex-col gap-2">
+                                        <button
+                                            class="bg-white dark:bg-[#1a2632] p-2 rounded-lg shadow-md text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3b4d]">
+                                            <span class="material-symbols-outlined text-xl">my_location</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Full Width (on mobile) / Span 3 Row: AI Recommendations -->
+                        <div class="col-span-1 lg:col-span-3">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="material-symbols-outlined text-primary">auto_awesome</span>
+                                <h3 class="font-bold text-[#111418] dark:text-white text-lg">Recommended for You</h3>
+                                <p class="text-sm text-[#60758a] dark:text-[#94a3b8] ml-2 hidden sm:block">Based on your
+                                    recent history to coastal cities</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <!-- Rec Card 1 -->
+                                <div
+                                    class="group bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2a3b4d] overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="h-40 bg-cover bg-center relative"
+                                        data-alt="Scenic view of the Boston harbor skyline"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDnYhQGin3mJHPPCXacnxFKBHOPf0sev5v5IhiGwJgAt5CEG1JdCOglLya8FKebWxVh8UNWYrQqEdHRkTqFOnSozhw7ApbKMPFn7mXtm4Lu02jdpXiA4lct5fW9DFZ8zIpVi9D36Lf6ouTnVCks9kx1HLKZPgbYHsdcucPtYEfpwjXE1PrrEIGYSOYxAblWSC5jsWl8YlNTMGgK4qZImWzkUwYi383v8R3IBjKcB1zEBioHjyLzebKm0aL72sS-O5u33K05o2i3ONk");'>
+                                        <div
+                                            class="absolute top-3 right-3 bg-white/90 dark:bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold dark:text-white">
+                                            $45 one-way</div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4
+                                                    class="font-bold text-[#111418] dark:text-white group-hover:text-primary transition-colors">
+                                                    Weekend in Boston</h4>
+                                                <p class="text-xs text-[#60758a] dark:text-[#94a3b8] mt-1">2h 45m from
+                                                    NY Penn</p>
+                                            </div>
+                                            <div class="bg-primary/10 p-1.5 rounded-full">
+                                                <span
+                                                    class="material-symbols-outlined text-primary text-sm">trending_down</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 flex gap-2">
+                                            <span
+                                                class="text-[10px] uppercase tracking-wider font-bold text-[#60758a] bg-[#f0f2f5] dark:bg-[#2a3b4d] dark:text-[#94a3b8] px-2 py-1 rounded">Seaside</span>
+                                            <span
+                                                class="text-[10px] uppercase tracking-wider font-bold text-[#60758a] bg-[#f0f2f5] dark:bg-[#2a3b4d] dark:text-[#94a3b8] px-2 py-1 rounded">History</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Rec Card 2 -->
+                                <div
+                                    class="group bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2a3b4d] overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="h-40 bg-cover bg-center relative"
+                                        data-alt="View of a train traveling through autumn foliage"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGrnDbo_-XzKX63Dhl9sKzKJTm-stTaIbFVRaac7-W2X721vNmQiMKxgBSR-M-wGdXhA3R9FoMM1uj21OWzWKz_wkfdWGlhyl_lJMyXnIICGVbAhuXlCCqpSQI4CFCCJoUjWMoviLJFJvQEfA7A-Lcd-a7r950457PJDBYDD1s-8p0y-emfYuCU2Kb6H4RZiTXpGTyAjaWK3tUOAiffhKxMyWYnTeP6H8mPXnFaHzHET3LoWe27W0w7TY9wBQHCOD8QRDsq70mV-o");'>
+                                        <div
+                                            class="absolute top-3 right-3 bg-white/90 dark:bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold dark:text-white">
+                                            $32 one-way</div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4
+                                                    class="font-bold text-[#111418] dark:text-white group-hover:text-primary transition-colors">
+                                                    Fall Colors Express</h4>
+                                                <p class="text-xs text-[#60758a] dark:text-[#94a3b8] mt-1">Scenic Route
+                                                    • Upstate NY</p>
+                                            </div>
+                                            <div class="bg-primary/10 p-1.5 rounded-full">
+                                                <span
+                                                    class="material-symbols-outlined text-primary text-sm">event</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 flex gap-2">
+                                            <span
+                                                class="text-[10px] uppercase tracking-wider font-bold text-[#60758a] bg-[#f0f2f5] dark:bg-[#2a3b4d] dark:text-[#94a3b8] px-2 py-1 rounded">Nature</span>
+                                            <span
+                                                class="text-[10px] uppercase tracking-wider font-bold text-[#60758a] bg-[#f0f2f5] dark:bg-[#2a3b4d] dark:text-[#94a3b8] px-2 py-1 rounded">Seasonal</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Rec Card 3 -->
+                                <div
+                                    class="group bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#e5e7eb] dark:border-[#2a3b4d] overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="h-40 bg-cover bg-center relative"
+                                        data-alt="Cityscape of Philadelphia at sunset"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIbhXO6hNpdNz8C-gBmMU5ZjtQI2wx9SNPqOzg8gdw6AHyIfYYmi8LCY10V7eddpiZDDzPzPcLYMb7fTo9n2a8yF2WPAn7LlB8ytoCDJH9sJJRiORr9IQc99EMr4itkFZnrazM0sn1vD6WpY2L9lzHlBzYkd3-EYgwrzjApGZYNWaQBjG6fHhfCrpdM2OKkmRGqwNxtONFzdAmVGKzop6ax5God4SyCNZShM8JkbmIwaao9or10JPB1qD8FBp-FlPBgyi5AAnkd5g");'>
+                                        <div
+                                            class="absolute top-3 right-3 bg-white/90 dark:bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold dark:text-white">
+                                            $28 one-way</div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4
+                                                    class="font-bold text-[#111418] dark:text-white group-hover:text-primary transition-colors">
+                                                    Philadelphia Day Trip</h4>
+                                                <p class="text-xs text-[#60758a] dark:text-[#94a3b8] mt-1">1h 10m from
+                                                    NY Penn</p>
+                                            </div>
+                                            <div class="bg-primary/10 p-1.5 rounded-full">
+                                                <span
+                                                    class="material-symbols-outlined text-primary text-sm">savings</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 flex gap-2">
+                                            <span
+                                                class="text-[10px] uppercase tracking-wider font-bold text-[#60758a] bg-[#f0f2f5] dark:bg-[#2a3b4d] dark:text-[#94a3b8] px-2 py-1 rounded">Culture</span>
+                                            <span
+                                                class="text-[10px] uppercase tracking-wider font-bold text-[#60758a] bg-[#f0f2f5] dark:bg-[#2a3b4d] dark:text-[#94a3b8] px-2 py-1 rounded">Food</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Live Train Status - RailTrack</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white font-display overflow-x-hidden min-h-screen flex flex-col">
+    <!-- TopNavBar -->
+    <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f2f5] dark:border-b-[#2a3441] px-10 py-3 bg-white dark:bg-[#1a2632] sticky top-0 z-50">
+        <div class="flex items-center gap-4 text-[#111418] dark:text-white">
+            <div class="size-8 text-primary">
+                <span class="material-symbols-outlined text-4xl">train</span>
+            </div>
+            <h2 class="text-[#111418] dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">RailTrack
+            </h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+            <nav class="flex items-center gap-9 hidden md:flex">
+                <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="index.html">Home</a>
+                <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="pnr.html">PNR Status</a>
+                <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="seat_availability.html">Seat Availability</a>
+                <a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors"
+                    href="help.html">Help</a>
+            </nav>
+            <div class="flex gap-4 items-center">
+                <button
+                    class="flex items-center justify-center rounded-lg h-10 w-10 bg-gray-100 dark:bg-[#2a3441] text-[#111418] dark:text-white hover:bg-gray-200 dark:hover:bg-[#354050] transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button
+                    class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors shadow-sm">
+                    <span class="truncate">Login</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex flex-col lg:flex-row h-[calc(100vh-65px)] overflow-hidden">
+        <!-- Sidebar: Search & Timeline -->
+        <aside
+            class="w-full lg:w-[420px] bg-white dark:bg-[#1a2632] border-r border-[#f0f2f5] dark:border-[#2a3441] flex flex-col z-20 overflow-hidden shadow-lg lg:shadow-none">
+            <!-- Search Area -->
+            <div class="p-6 border-b border-[#f0f2f5] dark:border-[#2a3441]">
+                <h1 class="text-2xl font-bold mb-1 dark:text-white">Live Train Status</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Track location, delays, and ETA.</p>
+                <div class="flex gap-2">
+                    <div class="relative flex-1">
+                        <span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">search</span>
+                        <input
+                            class="w-full rounded-lg border border-gray-200 dark:border-[#354050] bg-gray-50 dark:bg-[#101922] py-2.5 pl-10 pr-3 text-sm focus:border-primary focus:outline-none dark:text-white placeholder:text-gray-400"
+                            placeholder="Enter Train No. (e.g. 12951)" value="12951" />
+                    </div>
+                    <button
+                        class="bg-primary text-white px-4 py-2.5 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors shadow-sm">
+                        Track
+                    </button>
+                </div>
+            </div>
+            <!-- Train Summary Card -->
+            <div class="p-5 bg-blue-50/50 dark:bg-blue-900/10 border-b border-[#f0f2f5] dark:border-[#2a3441]">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h2 class="font-bold text-lg text-[#111418] dark:text-white">12951 - Rajdhani Exp</h2>
+                        <div class="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            <span>New Delhi</span>
+                            <span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+                            <span>Mumbai Central</span>
+                        </div>
+                    </div>
+                    <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800">
+                        <span class="material-symbols-outlined text-[14px]">schedule</span> Delayed by 12m
+                    </span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-4">
+                    <div
+                        class="bg-white dark:bg-[#101922] p-3 rounded-lg border border-gray-100 dark:border-[#2a3441] shadow-sm">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">
+                            Speed</p>
+                        <p class="font-bold text-lg dark:text-white">110 <span
+                                class="text-xs font-normal text-gray-400">km/h</span></p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-[#101922] p-3 rounded-lg border border-gray-100 dark:border-[#2a3441] shadow-sm col-span-2">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">
+                            Next Stop</p>
+                        <p class="font-bold text-lg dark:text-white truncate">Surat (ST) <span
+                                class="text-sm font-normal text-gray-500 ml-1">~ 45km</span></p>
+                    </div>
+                </div>
+            </div>
+            <!-- Timeline (Scrollable) -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-6">
+                <div class="relative pl-4 border-l-2 border-gray-200 dark:border-[#2a3441] space-y-8">
+                    <!-- Past Stop -->
+                    <div class="relative group">
+                        <div
+                            class="absolute -left-[23px] top-0 h-4 w-4 rounded-full bg-gray-300 dark:bg-gray-600 border-2 border-white dark:border-[#1a2632] group-hover:scale-110 transition-transform">
+                        </div>
+                        <div class="opacity-60">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-sm">Vadodara Jn (BRC)</h3>
+                                <span class="text-xs font-mono bg-gray-100 dark:bg-[#2a3441] px-1.5 py-0.5 rounded">Dep
+                                    14:20</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-0.5">Departed on time</p>
+                        </div>
+                    </div>
+                    <!-- Current Location (Live) -->
+                    <div class="relative">
+                        <div
+                            class="absolute -left-[25px] top-0 h-5 w-5 rounded-full bg-primary border-4 border-blue-100 dark:border-blue-900 animate-pulse shadow-[0_0_10px_rgba(37,140,244,0.5)]">
+                        </div>
+                        <div class="bg-primary/5 dark:bg-primary/10 p-3 rounded-lg -mt-2 border border-primary/20">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-primary text-xs font-bold uppercase tracking-wider">Live
+                                    Tracking</span>
+                                <span class="text-xs text-gray-500">Updated: Just now</span>
+                            </div>
+                            <p class="text-sm font-medium dark:text-white">Crossing Narmada Bridge</p>
+                            <p class="text-xs text-gray-500 mt-1">Distance to next stop: 45 km</p>
+                        </div>
+                    </div>
+                    <!-- Next Stop (Delayed) -->
+                    <div class="relative">
+                        <div
+                            class="absolute -left-[23px] top-0 h-4 w-4 rounded-full bg-white dark:bg-[#1a2632] border-2 border-red-500">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-base dark:text-white">Surat (ST)</h3>
+                                <div class="text-right">
+                                    <span class="block text-sm font-bold text-red-600 dark:text-red-400">ETA
+                                        16:02</span>
+                                    <span class="block text-xs text-gray-400 line-through">Sch 15:50</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-red-500 mt-0.5 font-medium">Expected delay: 12 mins</p>
+                            <!-- Community Update Bubble -->
+                            <div
+                                class="mt-3 flex gap-2 items-start bg-yellow-50 dark:bg-yellow-900/10 p-2 rounded text-xs border border-yellow-100 dark:border-yellow-800/30">
+                                <span class="material-symbols-outlined text-yellow-600 text-sm">campaign</span>
+                                <div>
+                                    <p class="text-gray-800 dark:text-gray-200"><span class="font-bold">Community
+                                            Alert:</span> Platform 4 expected.</p>
+                                    <p class="text-[10px] text-gray-500 mt-0.5">Reported by User882 • 5m ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Future Stop -->
+                    <div class="relative">
+                        <div
+                            class="absolute -left-[23px] top-0 h-4 w-4 rounded-full bg-white dark:bg-[#1a2632] border-2 border-gray-300 dark:border-gray-600">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-sm text-gray-500 dark:text-gray-400">Valsad (BL)</h3>
+                                <span class="text-xs font-mono text-gray-400">Sch 17:15</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-0.5">On time forecast</p>
+                        </div>
+                    </div>
+                    <!-- Future Stop -->
+                    <div class="relative pb-4">
+                        <div
+                            class="absolute -left-[23px] top-0 h-4 w-4 rounded-full bg-white dark:bg-[#1a2632] border-2 border-gray-300 dark:border-gray-600">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-sm text-gray-500 dark:text-gray-400">Vapi (VAPI)</h3>
+                                <span class="text-xs font-mono text-gray-400">Sch 17:42</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-0.5">On time forecast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Community Updates / User Input -->
+            <div class="p-4 bg-gray-50 dark:bg-[#151f2b] border-t border-[#f0f2f5] dark:border-[#2a3441]">
+                <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Crowdsource
+                    Updates</p>
+                <button
+                    class="w-full flex items-center justify-center gap-2 py-2.5 border border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-[#1a2632] transition-colors">
+                    <span class="material-symbols-outlined text-sm">add_circle</span>
+                    Report Sighting / Issue
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content: Map Area -->
+        <section class="flex-1 relative bg-gray-100 dark:bg-[#0d1218] flex flex-col h-full">
+            <!-- Map Controls (Floating) -->
+            <div class="absolute top-4 right-4 z-10 flex flex-col gap-2">
+                <div
+                    class="bg-white dark:bg-[#1a2632] rounded-lg shadow-md p-1.5 flex flex-col gap-1 border border-gray-200 dark:border-[#2a3441]">
+                    <button
+                        class="p-2 hover:bg-gray-100 dark:hover:bg-[#354050] rounded text-gray-700 dark:text-gray-200 transition-colors"
+                        title="Zoom In">
+                        <span class="material-symbols-outlined text-xl">add</span>
+                    </button>
+                    <button
+                        class="p-2 hover:bg-gray-100 dark:hover:bg-[#354050] rounded text-gray-700 dark:text-gray-200 transition-colors"
+                        title="Zoom Out">
+                        <span class="material-symbols-outlined text-xl">remove</span>
+                    </button>
+                </div>
+                <div class="bg-white dark:bg-[#1a2632] rounded-lg shadow-md p-2 flex items-center justify-center border border-gray-200 dark:border-[#2a3441] cursor-pointer"
+                    title="Recenter">
+                    <span class="material-symbols-outlined text-xl text-gray-700 dark:text-gray-200">my_location</span>
+                </div>
+            </div>
+            <!-- Auto-Update Toggle Toolbar (Floating) -->
+            <div class="absolute top-4 left-4 z-10">
+                <div
+                    class="bg-white dark:bg-[#1a2632] rounded-lg shadow-md px-3 py-2 flex items-center gap-3 border border-gray-200 dark:border-[#2a3441]">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                        </span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300">Live
+                            Update</span>
+                    </div>
+                    <div class="h-4 w-px bg-gray-200 dark:bg-gray-600"></div>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input checked="" class="sr-only peer" type="checkbox" value="" />
+                        <div
+                            class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary">
+                        </div>
+                        <span class="ms-2 text-sm font-medium text-gray-700 dark:text-gray-300">Auto</span>
+                    </label>
+                    <button class="text-gray-400 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-lg">refresh</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Map Placeholder / Visualization -->
+            <!-- Note: In a real app, this would be a Google Map or Leaflet instance. Using CSS/HTML to simulate map look. -->
+            <div class="w-full h-full relative overflow-hidden bg-[#eef4f8] dark:bg-[#12161b] group"
+                data-alt="Interactive map showing train route with blue path line and location markers on a light grid background"
+                style="background-image: radial-gradient(#d1dbe6 1px, transparent 1px); background-size: 20px 20px;">
+                <!-- Simulated Map Path -->
+                <svg class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 0;">
+                    <path class="dark:stroke-gray-700" d="M 200 -50 Q 250 150 400 300 T 700 600" fill="none"
+                        stroke="#cbd5e1" stroke-width="6"></path>
+                    <!-- Active Path -->
+                    <path class="animate-[dash_1s_linear_infinite]" d="M 200 -50 Q 250 150 400 300" fill="none"
+                        stroke="#258cf4" stroke-dasharray="10 4" stroke-width="6"></path>
+                    <style>
+                        @keyframes dash {
+                            to {
+                                stroke-dashoffset: -14;
+                            }
+                        }
+                    </style>
+                </svg>
+                <!-- Map Markers -->
+                <!-- Past Station Marker -->
+                <div
+                    class="absolute top-[18%] left-[24%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group/marker cursor-pointer z-10">
+                    <div class="w-3 h-3 bg-gray-500 rounded-full border-2 border-white shadow-sm"></div>
+                    <span
+                        class="mt-1 text-xs font-bold text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-black/50 px-1.5 rounded backdrop-blur-sm">Vadodara</span>
+                </div>
+                <!-- Current Train Marker -->
+                <div
+                    class="absolute top-[40%] left-[38%] transform -translate-x-1/2 -translate-y-1/2 z-20 transition-all duration-1000 ease-in-out hover:scale-110 cursor-pointer">
+                    <!-- Tooltip -->
+                    <div
+                        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                        <div class="bg-black text-white text-xs py-1 px-2 rounded shadow-lg">
+                            Speed: 110km/h
+                        </div>
+                        <div class="w-2 h-2 bg-black transform rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2">
+                        </div>
+                    </div>
+                    <!-- Pulsing Train Icon -->
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-primary/30 rounded-full animate-ping"></div>
+                        <div class="absolute -inset-2 bg-primary/50 rounded-full animate-pulse"></div>
+                        <div
+                            class="w-10 h-10 bg-primary rounded-full border-2 border-white shadow-xl flex items-center justify-center text-white relative z-10">
+                            <span class="material-symbols-outlined text-[20px]">train</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Next Station Marker -->
+                <div
+                    class="absolute top-[65%] left-[62%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group/marker cursor-pointer z-10">
+                    <div class="w-4 h-4 bg-white rounded-full border-4 border-red-500 shadow-md"></div>
+                    <div
+                        class="mt-2 bg-white dark:bg-[#1a2632] px-3 py-1.5 rounded-lg shadow-lg border border-red-100 dark:border-red-900/30 flex flex-col items-center">
+                        <span class="text-sm font-bold text-[#111418] dark:text-white">Surat</span>
+                        <span class="text-[10px] font-bold text-red-500 uppercase">Next Stop</span>
+                    </div>
+                </div>
+                <!-- Future Station Marker -->
+                <div
+                    class="absolute top-[85%] left-[75%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group/marker cursor-pointer z-10 opacity-60">
+                    <div class="w-3 h-3 bg-gray-400 rounded-full border-2 border-white shadow-sm"></div>
+                    <span
+                        class="mt-1 text-xs font-bold text-gray-500 dark:text-gray-400 bg-white/50 px-1 rounded">Valsad</span>
+                </div>
+            </div>
+            <!-- Legend (Bottom Right of Map) -->
+            <div
+                class="absolute bottom-4 right-4 z-10 bg-white/90 dark:bg-[#1a2632]/90 backdrop-blur-sm p-3 rounded-lg border border-gray-200 dark:border-[#2a3441] shadow-sm text-xs">
+                <div class="flex items-center gap-3 mb-1">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                        <span class="text-gray-600 dark:text-gray-300">On Time</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                        <span class="text-gray-600 dark:text-gray-300">Delayed</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                        <span class="text-gray-600 dark:text-gray-300">Current</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-gray-300"></span>
+                        <span class="text-gray-600 dark:text-gray-300">Passed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

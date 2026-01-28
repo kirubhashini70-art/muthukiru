@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Train Search - RailTracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "secondary": "#10b981", // Emerald green for accents
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for table if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-white">
+<!-- Top Navigation -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">train</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">RailTracker</span>
+</div>
+<!-- Nav Links -->
+<nav class="hidden md:flex gap-8">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-primary" href="#">Search</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">My Bookings</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors" href="#">Schedules</a>
+</nav>
+<!-- User Profile -->
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-slate-700 dark:text-slate-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-9 w-9 rounded-full bg-cover bg-center ring-2 ring-slate-100 dark:ring-slate-800" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnvyvE3tMfH9wvLVnmZjIqn1Y1Vb-3IbvGSkcylcemIiTz4s0iR7pMuLTkAjIR-aAQYZjnRpite_4Y8to-L4M0XfSCj_TYZ6dqUE-7LRFZWxTpRvRRcmojTekvMQJRXZSEIQmxQymCDiC_4ZIZ4DnEaB68li6sq70E4b7eN5FozFai55WhQ3Jk1JYAUexK6vKR_XbdcBQRu-E2J5OcT4dkjMZzb_gfIYi8OhWNYt84EbwvlEzoCxHbEO6XsPFFlD3LrMk9fRCC_T4');">
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Search Hero Section -->
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 mb-8">
+<div class="mb-6">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Find Your Train</h1>
+<p class="text-slate-500 dark:text-slate-400">Search across thousands of routes and check real-time availability.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+<!-- From -->
+<div class="lg:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">From Station</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-[20px]">trip_origin</span>
+</div>
+<input class="block w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary placeholder-slate-400 transition-all" placeholder="e.g. New York Penn" type="text" value="New York"/>
+<button aria-label="Voice Search" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+</div>
+</div>
+<!-- Swap Icon (Desktop Only) -->
+<div class="hidden lg:flex lg:col-span-1 justify-center pb-3">
+<button class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-primary hover:bg-blue-50 transition-colors">
+<span class="material-symbols-outlined">sync_alt</span>
+</button>
+</div>
+<!-- To -->
+<div class="lg:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">To Station</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+</div>
+<input class="block w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary placeholder-slate-400 transition-all" placeholder="e.g. Boston South" type="text"/>
+</div>
+</div>
+<!-- Date -->
+<div class="lg:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Date of Travel</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+</div>
+<input class="block w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary text-slate-900 dark:text-white" type="date" value="2023-10-24"/>
+</div>
+</div>
+<!-- Search Button -->
+<div class="lg:col-span-2">
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg shadow-primary/30 h-[46px]">
+<span class="material-symbols-outlined text-[20px]">search</span>
+<span>Search</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Main Layout: Sidebar & Results -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Sidebar Filters -->
+<aside class="hidden lg:block lg:col-span-1 space-y-6">
+<!-- Filter Group: Train Type -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">train</span>
+                        Train Type
+                    </h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">High-Speed Express</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Intercity</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">Regional / Local</span>
+</label>
+</div>
+</div>
+<!-- Filter Group: Departure Time -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">schedule</span>
+                        Departure Time
+                    </h3>
+<div class="grid grid-cols-2 gap-2">
+<button class="flex flex-col items-center justify-center p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-blue-50 dark:hover:bg-slate-800 transition-all bg-blue-50 dark:bg-slate-800 ring-1 ring-primary text-primary">
+<span class="material-symbols-outlined text-[20px] mb-1">wb_sunny</span>
+<span class="text-xs font-medium">Morning</span>
+</button>
+<button class="flex flex-col items-center justify-center p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-blue-50 dark:hover:bg-slate-800 transition-all text-slate-500">
+<span class="material-symbols-outlined text-[20px] mb-1">wb_twilight</span>
+<span class="text-xs font-medium">Afternoon</span>
+</button>
+<button class="flex flex-col items-center justify-center p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-blue-50 dark:hover:bg-slate-800 transition-all text-slate-500">
+<span class="material-symbols-outlined text-[20px] mb-1">dark_mode</span>
+<span class="text-xs font-medium">Night</span>
+</button>
+</div>
+</div>
+<!-- Filter Group: Amenities -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">coffee</span>
+                        Amenities
+                    </h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-secondary text-[18px]">wifi</span>
+                                Free WiFi
+                            </div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-secondary/50 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-primary text-[18px]">ac_unit</span>
+                                AC Coach
+                            </div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-secondary/50 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-orange-500 text-[18px]">restaurant</span>
+                                Pantry Car
+                            </div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-secondary/50 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Price Slider Placeholder -->
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">attach_money</span>
+                            Price
+                        </h3>
+<span class="text-xs font-medium text-slate-500">$10 - $250</span>
+</div>
+<div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full mb-2 relative">
+<div class="absolute left-0 top-0 h-full w-1/2 bg-primary rounded-full"></div>
+<div class="absolute top-1/2 -mt-2 left-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow cursor-pointer transform -translate-x-1/2"></div>
+</div>
+</div>
+</aside>
+<!-- Results List -->
+<div class="lg:col-span-3 flex flex-col gap-6">
+<!-- Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Showing 5 trains</h2>
+<div class="flex items-center gap-3">
+<div class="relative">
+<select class="appearance-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 py-2 pl-4 pr-10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 font-medium">
+<option>Sort by: Recommended</option>
+<option>Price: Low to High</option>
+<option>Duration: Shortest</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+<button class="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 py-2 px-4 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                            Export PDF
+                        </button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="overflow-x-auto no-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+<th class="px-6 py-4">Train</th>
+<th class="px-6 py-4">Departure</th>
+<th class="px-6 py-4">Duration</th>
+<th class="px-6 py-4">Arrival</th>
+<th class="px-6 py-4">Price</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 w-10"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Result 1: Standard Row -->
+<tr class="group hover:bg-blue-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Acela Express</span>
+<span class="text-xs text-slate-500">#2150</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">08:00 AM</span>
+<span class="text-xs text-slate-500">NY Penn</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                            3h 45m
+                                        </div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">11:45 AM</span>
+<span class="text-xs text-slate-500">Boston South</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-bold text-slate-900 dark:text-white">$124.00</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                            On Time
+                                        </span>
+</td>
+<td class="px-6 py-5 text-center">
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</td>
+</tr>
+<!-- Result 2: Expanded Row (Demonstration) -->
+<tr class="bg-blue-50/30 dark:bg-slate-800/20 border-l-4 border-l-primary">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-primary">Northeast Regional</span>
+<span class="text-xs text-slate-500">#66</span>
+<div class="flex gap-2 mt-2">
+<span class="material-symbols-outlined text-[16px] text-secondary" title="WiFi Available">wifi</span>
+<span class="material-symbols-outlined text-[16px] text-primary" title="AC">ac_unit</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">09:15 AM</span>
+<span class="text-xs text-slate-500">NY Penn</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                            4h 10m
+                                        </div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">01:25 PM</span>
+<span class="text-xs text-slate-500">Boston South</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-bold text-slate-900 dark:text-white">$89.00</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                            On Time
+                                        </span>
+</td>
+<td class="px-6 py-5 text-center">
+<span class="material-symbols-outlined text-primary">expand_less</span>
+</td>
+</tr>
+<!-- Expanded Details Section -->
+<tr class="bg-slate-50 dark:bg-slate-900/50">
+<td class="p-0" colspan="7">
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-slate-100 dark:border-slate-800">
+<!-- Route Timeline -->
+<div>
+<h4 class="text-xs uppercase tracking-wide text-slate-500 font-bold mb-4">Route Details</h4>
+<div class="relative pl-4 border-l-2 border-slate-200 dark:border-slate-700 space-y-8 ml-2">
+<!-- Stop 1 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-primary ring-4 ring-white dark:ring-slate-900"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">New York Penn Station</p>
+<p class="text-xs text-slate-500">Departed</p>
+</div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">09:15 AM</p>
+</div>
+</div>
+<!-- Stop 2 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-white border-2 border-slate-300 dark:border-slate-600 dark:bg-slate-800"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-sm font-medium text-slate-600 dark:text-slate-300">New Haven Union Station</p>
+<p class="text-xs text-slate-500">Stop: 5 min</p>
+</div>
+<p class="text-sm text-slate-500">10:45 AM</p>
+</div>
+</div>
+<!-- Stop 3 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-white border-2 border-slate-300 dark:border-slate-600 dark:bg-slate-800"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-sm font-medium text-slate-600 dark:text-slate-300">Providence Station</p>
+<p class="text-xs text-slate-500">Stop: 3 min</p>
+</div>
+<p class="text-sm text-slate-500">12:30 PM</p>
+</div>
+</div>
+<!-- Stop 4 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-slate-800 dark:bg-white ring-4 ring-white dark:ring-slate-900"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Boston South Station</p>
+<p class="text-xs text-slate-500">Scheduled Arrival</p>
+</div>
+<p class="text-sm font-medium text-slate-900 dark:text-white">01:25 PM</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Visualization -->
+<div class="relative h-64 rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-800">
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="Abstract map background showing train route path" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZ_3arlvCfnsYuUQMLwWvafWjtNYdZz02hBeABf1W0tIhfqOdu_WqcUIKEvnwFoZCLdsybKsF1AgPAcIc0I2KbIvaX_AWtXh50-5PJ1Yo0e8guOVtCFfGuYoK_ePYZMonkzTCusW_LS5OXfIwAu6iO3MnPaFiKhhH09d1TbwJZti8GzoiEgg0ESbHSm5Bg7OtNTUN29TM2nLkQMW9fNdtjPPFhO4vDCbCDdYi-8RFyiRAlHTUDu_nTV8TLWraKSbSfrfxA537HFU8');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent flex flex-col justify-end p-4">
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined">map</span>
+<span class="text-sm font-bold">Live Route Map</span>
+</div>
+</div>
+<!-- Simulated Train Marker -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-1.5 rounded-full shadow-lg animate-pulse">
+<div class="size-3 bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-slate-900/50 px-6 pb-4 flex justify-end">
+<button class="text-sm text-primary font-bold hover:underline">View Full Schedule &amp; Details</button>
+</div>
+</td>
+</tr>
+<!-- Result 3: Delayed -->
+<tr class="group hover:bg-blue-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Coastal Liner</span>
+<span class="text-xs text-slate-500">#4401</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">10:30 AM</span>
+<span class="text-xs text-slate-500">NY Penn</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1 text-xs text-slate-500">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                            5h 00m
+                                        </div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">03:30 PM</span>
+<span class="text-xs text-slate-500">Boston South</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-bold text-slate-900 dark:text-white">$65.00</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">
+<span class="size-1.5 rounded-full bg-orange-500"></span>
+                                            Delayed 15m
+                                        </span>
+</td>
+<td class="px-6 py-5 text-center">
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-4">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-500 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                        Previous
+                    </button>
+<div class="flex gap-1">
+<button class="px-3 py-1 text-sm font-medium bg-primary text-white rounded-md">1</button>
+<button class="px-3 py-1 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md">2</button>
+<button class="px-3 py-1 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md">3</button>
+<span class="px-2 py-1 text-slate-400">...</span>
+<button class="px-3 py-1 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md">12</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-500 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Next
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
